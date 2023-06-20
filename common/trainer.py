@@ -4,6 +4,7 @@ sys.path.append(os.pardir)
 import cupy as cp
 import matplotlib.pyplot as plt
 import pandas as pd
+import csv
 from common.optimizer import *
 
 class Trainer:
@@ -39,6 +40,7 @@ class Trainer:
         self.test_acc_list = []
 
     def train_step(self):
+        #それぞれのepoch,iterなどの情報を標準出力
         print("this is self.current_iter",self.current_iter)
         print("this is self.iter_per_epoch",self.iter_per_epoch)
         print("this is self.current_epoch",self.current_epoch)
@@ -53,6 +55,8 @@ class Trainer:
         loss = self.network.loss(x_batch, t_batch)
         self.train_loss_list.append(loss)
         if self.verbose: print("train loss:" + str(loss))
+        #とりあえずメモリのキャッシュをクリア
+        cp.get_default_memory_pool().free_all_blocks() 
         
         if self.current_iter % self.iter_per_epoch == 0:
             self.current_epoch += 1
@@ -63,13 +67,17 @@ class Trainer:
                 t = self.evaluate_sample_num_per_epoch
                 x_train_sample, t_train_sample = self.x_train[:t], self.t_train[:t]
                 x_test_sample, t_test_sample = self.x_test[:t], self.t_test[:t]
-                
-            train_acc = self.network.accuracy(x_train_sample, t_train_sample)
+
+            #申し訳ないが、これで動作検証    
+            #train_acc = self.network.accuracy(x_train_sample, t_train_sample)
             test_acc = self.network.accuracy(x_test_sample, t_test_sample)
-            self.train_acc_list.append(train_acc)
+            #self.train_acc_list.append(train_acc)
             self.test_acc_list.append(test_acc)
 
-            if self.verbose: print("=== epoch:" + str(self.current_epoch) + ", train acc:" + str(train_acc) + ", test acc:" + str(test_acc) + " ===")
+            #if self.verbose: print("=== epoch:" + str(self.current_epoch) + ", train acc:" + str(train_acc) + ", test acc:" + str(test_acc) + " ===")
+            if self.verbose: print("=== epoch:" + str(self.current_epoch) +", test acc:" + str(test_acc) + " ===")
+            #ここでもメモリのキャッシュをクリア
+            cp.get_default_memory_pool().free_all_blocks() 
         self.current_iter += 1
 
     def train(self):
@@ -97,6 +105,7 @@ class Trainer:
         return exp_x / sum_exp_x
 
     #テストデータの判別確率の分布グラフを描画する関数
+    #こいつの処理が最大限に、異次元に重い。特にメモリ消費
     def plot_distribution_graph(self):
         # Verify test data
         label_percentages = self.network.predict(self.x_test)
@@ -135,6 +144,8 @@ class Trainer:
         plt.text(0.1, 0.9, max_epochs_text, fontsize=14, transform=plt.gca().transAxes) # coordinate values are scaled to axes
 
         plt.show()
+        #ここでキャッシュクリアするのが職人なんだな
+        cp.get_default_memory_pool().free_all_blocks()
 
     #損失の度グラフを描画する関数
     def plot_loss(self):
@@ -151,7 +162,8 @@ class Trainer:
     #テストデータの精度グラフを描画する関数
     def plot_accuracy(self):
         plt.figure()
-        x = cp.asnumpy(cp.arange(len(self.train_acc_list)))
+        x = cp.asnumpy(cp.arange(len(self.test_acc_list)))
+        #x = cp.asnumpy(cp.arange(len(self.train_acc_list)))
         #y1 = cp.asnumpy(cp.array(self.train_acc_list))
         y2 = cp.asnumpy(cp.array(self.test_acc_list))
         #plt.plot(x, y1, label='train')
@@ -161,3 +173,10 @@ class Trainer:
         plt.title("Accuracy per epoch")
         plt.legend()
         plt.show()
+
+    def save_test_acc_to_csv(self, filepath='test_acc.csv'):
+        with open(filepath, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(["epoch", "test_acc"])
+            for i, acc in enumerate(self.test_acc_list):
+                writer.writerow([i, acc])
