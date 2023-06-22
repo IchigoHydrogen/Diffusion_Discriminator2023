@@ -3,9 +3,9 @@ import numpy as np
 from PIL import Image
 
 # 画像の保存先のディレクトリ
-save_dir='C:/Users/ei/Desktop/Program/deep-learning-from-scratch1-myself-deepfake_cupy/deep-learning-from-scratch1-myself-deepfake_cupy/myself_data/dataset_45th_32x32'
+save_dir='C:/here////myself_data/dataset_45th_32x32'
 # 画像の読み込み元のディレクトリ
-image_dir = 'C:/Users/ei/Desktop/Program/deep-learning-from-scratch1-myself-deepfake_cupy/deep-learning-from-scratch1-myself-deepfake_cupy/myself_data/dataset_4th_32x32'
+image_dir = 'C:/here////myself_data/dataset_45th_32x32'
 
 # 画像を保存するためのNumpy配列
 x_train = []
@@ -70,11 +70,11 @@ print('this dataset program has done!!')
 # データセットをロードする関数
 def load_45th_32x32_dataset(normalize=True,flatten=True,one_hot_label=False):
     # 訓練用データセットをロード
-    x_train = np.load('C:/Users/ei/Desktop/Program/deep-learning-from-scratch1-myself-deepfake_cupy/deep-learning-from-scratch1-myself-deepfake_cupy/myself_data/dataset_45th_32x32/x_train.npy')
-    y_train = np.load('C:/Users/ei/Desktop/Program/deep-learning-from-scratch1-myself-deepfake_cupy/deep-learning-from-scratch1-myself-deepfake_cupy/myself_data/dataset_45th_32x32/y_train.npy')
+    x_train = np.load('C:/here////myself_data/dataset_45th_32x32/x_train.npy')
+    y_train = np.load('C:/here////myself_data/dataset_45th_32x32/y_train.npy')
     # テスト用データセットをロード
-    x_test = np.load('C:/Users/ei/Desktop/Program/deep-learning-from-scratch1-myself-deepfake_cupy/deep-learning-from-scratch1-myself-deepfake_cupy/myself_data/dataset_45th_32x32/x_test.npy')
-    y_test = np.load('C:/Users/ei/Desktop/Program/deep-learning-from-scratch1-myself-deepfake_cupy/deep-learning-from-scratch1-myself-deepfake_cupy/myself_data/dataset_45th_32x32/y_test.npy')
+    x_test = np.load('C:/here////myself_data/dataset_45th_32x32/x_test.npy')
+    y_test = np.load('C:/here////myself_data/dataset_45th_32x32/y_test.npy')
 
     if normalize==True:
         # x_train, x_test を float32 型に変換
