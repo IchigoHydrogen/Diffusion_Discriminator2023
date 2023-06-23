@@ -86,6 +86,9 @@ class Trainer:
 
         test_acc = self.network.accuracy(self.x_test, self.t_test)
 
+        # 追加: 最終的なテスト精度をリストに追加
+        self.test_acc_list.append(test_acc)
+
         if self.verbose:
             print("=============== Final Test Accuracy ===============")
             print("test acc:" + str(test_acc))
@@ -156,9 +159,9 @@ class Trainer:
         plt.rcParams['font.weight'] = 'bold'
         plt.xlim(0.0,1.0)
 
-        # Assuming that the first column corresponds to "Fake Image" and the second column corresponds to "Real Image"
-        plt.hist(df_0['dp_1'], bins=20, alpha=0.5, label='Fake Image')
-        plt.hist(df_1['dp_1'], bins=20, alpha=0.5, label='Real Image')
+        #2023/6/23:dp_0とdp_1が逆になっていたので、修正
+        plt.hist(df_0['dp_0'], bins=20, alpha=0.5, label='AI生成画像')
+        plt.hist(df_1['dp_0'], bins=20, alpha=0.5, label='現実の写真')
         plt.xlabel('確率',fontname="MS Gothic")
         plt.ylabel('頻度',fontname="MS Gothic")
         plt.title("AI生成画像と判断した確率", fontsize=16, fontname="MS Gothic")
@@ -187,12 +190,9 @@ class Trainer:
     #テストデータの精度グラフを描画する関数
     def plot_accuracy(self):
         plt.figure()
-        x = cp.asnumpy(cp.arange(len(self.test_acc_list)))
-        #x = cp.asnumpy(cp.arange(len(self.train_acc_list)))
-        #y1 = cp.asnumpy(cp.array(self.train_acc_list))
-        y2 = cp.asnumpy(cp.array(self.test_acc_list))
-        #plt.plot(x, y1, label='train')
-        plt.plot(x, y2, label='test', linestyle='--')
+        x = cp.asnumpy(cp.arange(1,len(self.test_acc_list)))# epoch1以降を考慮
+        y = cp.asnumpy(cp.array(self.test_acc_list[1:])) # epoch1以降を考慮
+        plt.plot(x, y, label='test')
         plt.xlabel("epochs")
         plt.ylabel("accuracy")
         plt.title("Accuracy per epoch")
