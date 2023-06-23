@@ -100,21 +100,44 @@ class Trainer:
 
     #配列用のsoftmax関数
     def array_softmax(self, x):
-        exp_x = cp.exp(x)
-        sum_exp_x = cp.sum(exp_x, axis=1, keepdims=True)
-        return exp_x / sum_exp_x
+        if x.ndim == 2:
+            x = x - cp.max(x, axis=1, keepdims=True)  # オーバーフロー対策
+            x = cp.exp(x)
+            x /= cp.sum(x, axis=1, keepdims=True)
+        elif x.ndim == 1:
+            x = x - cp.max(x)  # オーバーフロー対策
+            x = cp.exp(x) / cp.sum(cp.exp(x))
+        return x
+
 
     #テストデータの判別確率の分布グラフを描画する関数
-    #こいつの処理が最大限に、異次元に重い。特にメモリ消費
+    #for文を使って、負荷軽減を試みる
     def plot_distribution_graph(self):
-        # Verify test data
-        label_percentages = self.network.predict(self.x_test)
+        label_percentages = []
+        for i in range(len(self.x_test)):
+            label_percentage = self.network.predict(self.x_test[i:i+1])
+            label_percentages.append(label_percentage)
+        label_percentages = cp.array(label_percentages)
 
-        probabilities = self.array_softmax(label_percentages)
+        probabilities = []
+        for i in range(len(label_percentages)):
+            probability = self.array_softmax(label_percentages[i])
+            probabilities.append(probability)
+        probabilities = cp.array(probabilities)
+
+        # reshape the probabilities array
+        probabilities = probabilities.reshape(probabilities.shape[0], probabilities.shape[2])
+
         probabilities = cp.asnumpy(probabilities)
 
+        #ここでもメモリのキャッシュをクリア
+        cp.get_default_memory_pool().free_all_blocks() 
+        # 続きは同様の処理
         probabilities_label_0 = probabilities[cp.asnumpy(self.t_test) == 0]
         probabilities_label_1 = probabilities[cp.asnumpy(self.t_test) == 1]
+
+        #print(probabilities[:10])
+        #print(probabilities.shape)
 
         data_0 = {'dp_0': probabilities_label_0[:, 0],
                   'dp_1': probabilities_label_0[:, 1]}
@@ -132,8 +155,10 @@ class Trainer:
         plt.rcParams['font.family'] = "MS Gothic"
         plt.rcParams['font.weight'] = 'bold'
         plt.xlim(0.0,1.0)
-        plt.hist(df_0['dp_0'], bins=20, alpha=0.5, label='Fake Image')
-        plt.hist(df_1['dp_0'], bins=20, alpha=0.5, label='Real Image')
+
+        # Assuming that the first column corresponds to "Fake Image" and the second column corresponds to "Real Image"
+        plt.hist(df_0['dp_1'], bins=20, alpha=0.5, label='Fake Image')
+        plt.hist(df_1['dp_1'], bins=20, alpha=0.5, label='Real Image')
         plt.xlabel('確率',fontname="MS Gothic")
         plt.ylabel('頻度',fontname="MS Gothic")
         plt.title("AI生成画像と判断した確率", fontsize=16, fontname="MS Gothic")
