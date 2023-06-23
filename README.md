@@ -7,3 +7,8 @@ https://imagecheck.streamlit.app/
 https://github.com/oreilly-japan/deep-learning-from-scratch
 
 また、Mnistではなく独自データセットをロードして学習できるよう、.pyファイルを追加しました。
+それらはmyself_datasetにあります。
+サンプルとして、20230523_3rd_28x28_datasetを入れました。label=0がAI生成画像(Fake),label=1が本物の写真です。(Real)
+
+このツールのライセンス:
+deep-learning-from-scratch-LICENSEに準じます。
