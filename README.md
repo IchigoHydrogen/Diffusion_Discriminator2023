@@ -20,8 +20,11 @@ label=0はAI生成画像(Fake)、label=1は本物の写真(Real)を意味しま�
 
 ## 使い方
 まずはリポジトリをクローンしてください。MatplotlibやCuPyなど、各種ライブラリが入っていれば、動作するはずです。
+cd Diffusion_Discriminator2023/ch07
+python myself_28x28_train_3graths_cupy.py
+で実行できるはずです。
 
 
 ## ライセンス
-本ツールのライセンスはdeep-learning-from-scratchのものに準じます。
+本ツールのライセンスはdeep-learning-from-scratchのものに準じます。(MIT License)
 人・財産・その他権利を侵害する目的での使用はご遠慮ください。
