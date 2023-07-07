@@ -1,13 +1,9 @@
 # Diffusion_Discriminator2023
 
 ## 概要
-これは、非常にシンプルな畳み込みニューラルネットワークを用いた、画像分類を行うための機械学習ライブラリです。
+これはシンプルな畳み込みニューラルネットワークを用いた、画像分類を行うための機械学習ライブラリです。
 サンプルプログラムでは、AI生成画像と本物の画像を、解像度28x28で分類します。
 CuPyを使ったCUDAコア処理に対応しています。
-
-## 引用と謝辞
-このライブラリは、書籍「ゼロから作るDeepLearning」で紹介されているライブラリを元に作られました。詳細は以下のリンクをご覧ください:
-https://github.com/oreilly-japan/deep-learning-from-scratch
 
 ## デモ
 このライブラリを使って学習させたモデルのデモは以下のサイトで見ることができます:
@@ -20,9 +16,15 @@ label=0はAI生成画像(Fake)、label=1は本物の写真(Real)を意味しま�
 
 ## 使い方
 まずはリポジトリをクローンしてください。MatplotlibやCuPyなど、各種ライブラリが入っていれば、動作するはずです。
+サンプルプログラムの使用例:
 cd Diffusion_Discriminator2023/ch07
 python myself_28x28_train_3graths_cupy.py
 で実行できるはずです。
+
+
+## 引用と謝辞
+このライブラリは、書籍「ゼロから作るDeepLearning」で紹介されているライブラリを元に作られました。詳細は以下のリンクをご覧ください:
+https://github.com/oreilly-japan/deep-learning-from-scratch
 
 
 ## ライセンス
