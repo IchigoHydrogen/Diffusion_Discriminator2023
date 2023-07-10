@@ -162,7 +162,7 @@ class Trainer:
         plt.hist(df_0['dp_0'], bins=20, alpha=0.5, label='AI-Generated Image')
         plt.hist(df_1['dp_0'], bins=20, alpha=0.5, label='Real Image')
         plt.xlabel('probability')
-        plt.ylabel('frequency'
+        plt.ylabel('frequency')
         plt.title("Probability distribution inferred to be AI-generated image", fontsize=16)
         plt.legend()
 
