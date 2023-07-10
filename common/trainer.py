@@ -155,16 +155,15 @@ class Trainer:
 
         # Draw graph
         plt.figure(figsize=(12, 6))
-        plt.rcParams['font.family'] = "MS Gothic"
-        plt.rcParams['font.weight'] = 'bold'
+        #plt.rcParams['font.family'] = "MS Gothic"
+        #plt.rcParams['font.weight'] = 'bold'
         plt.xlim(0.0,1.0)
 
-        #2023/6/23:dp_0とdp_1が逆になっていたので、修正
-        plt.hist(df_0['dp_0'], bins=20, alpha=0.5, label='AI生成画像')
-        plt.hist(df_1['dp_0'], bins=20, alpha=0.5, label='現実の写真')
-        plt.xlabel('確率',fontname="MS Gothic")
-        plt.ylabel('頻度',fontname="MS Gothic")
-        plt.title("AI生成画像と判断した確率", fontsize=16, fontname="MS Gothic")
+        plt.hist(df_0['dp_0'], bins=20, alpha=0.5, label='AI-Generated Image')
+        plt.hist(df_1['dp_0'], bins=20, alpha=0.5, label='Real Image')
+        plt.xlabel('probability')
+        plt.ylabel('frequency'
+        plt.title("Probability distribution inferred to be AI-generated image", fontsize=16)
         plt.legend()
 
         # Insert max_epochs text into Plot 1
@@ -172,7 +171,7 @@ class Trainer:
         plt.text(0.1, 0.9, max_epochs_text, fontsize=14, transform=plt.gca().transAxes) # coordinate values are scaled to axes
 
         plt.show()
-        #ここでキャッシュクリアするのが職人なんだな
+        #ここでキャッシュクリア
         cp.get_default_memory_pool().free_all_blocks()
 
     #損失の度グラフを描画する関数
