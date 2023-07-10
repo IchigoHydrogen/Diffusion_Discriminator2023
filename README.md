@@ -7,7 +7,7 @@
 また、CuPyを使ったCUDAコア処理に対応しています。
 
 ## デモ
-ここでは、ライブラリを用いて画像分類を行う一例を紹介しています。
+ここでは、ライブラリを用いて画像分類を行う一例を紹介しています。  
 [Google Colabで実行](https://colab.research.google.com/drive/1BcjiWriGA97ZIkXCfv7BiLF5klc7pSN0?usp=sharing)
 
 このライブラリを使って学習させたモデルの動作デモは、以下のサイトで確認することができます。  
