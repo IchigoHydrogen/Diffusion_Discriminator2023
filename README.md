@@ -29,8 +29,9 @@ npyファイルでは512x512の画像計4,000枚を、それぞれ32x32にリサ
 ## 使い方(ローカル環境)
 まずはリポジトリをクローンしてください。MatplotlibやCuPyなどの各種ライブラリが入っていれば、動作するはずです。  
 サンプルプログラムの使用例:  
-cd Diffusion_Discriminator2023/my_ch07  もしくはmy_ch08
+cd Diffusion_Discriminator2023/my_ch07  もしくはmy_ch08  
 python main.py  
+
 で実行できます。  
 
 
