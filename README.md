@@ -15,25 +15,30 @@
 https://imagecheck.streamlit.app/  
 
 ## 引用と謝辞
-このライブラリは、書籍「ゼロから作るDeepLearning」で紹介されているライブラリを元に作られました。  
+このライブラリは、書籍「ゼロから作るDeepLearning」で紹介されているライブラリを元に作りました。。  
 詳細は以下のリンクをご覧ください:  
 https://github.com/oreilly-japan/deep-learning-from-scratch
 
 ## 機能説明
 書籍「ゼロから作るDeepLearning」ではmnistを使って手描き文字の認識を行いますが、このリポジトリには独自のデータセットをロードし、学習する機能があります。(my_datasetディレクトリ)  
 
-以下のサンプルデータセットを用意しました。  
-label=0はStableDiffusion1.4を用いたAI生成画像(Fake)、label=1は本物の写真(Real)を意味しています。  
-npyファイルでは512x512の画像計4,000枚を、それぞれ32x32にリサイズしています。
+## データセットについて
+オリジナルのデータセットを作りました。  
+解像度は32x32,グレースケールの画像です。    
+label=0はAI生成画像(Fake)、label=1は本物の写真(Real)を意味します。
+内容としては、  
+AI生成画像はStable-Diffusion1.4で私が生成した画像2,000枚と、写真はWeb上から風景写真を2,000枚です。  
+これらを32x32にリサイズし、グレースケール化しています。 
 
 ## 使い方(ローカル環境)
-まずはリポジトリをクローンしてください。MatplotlibやCuPyなどの各種ライブラリが入っていれば、動作するはずです。  
+まずはリポジトリをCloneしてください。MatplotlibやCuPyなどの各種ライブラリが入っていれば、動作するはずです。  
 サンプルプログラムの使用例:  
+本リポジトリのあるディレクトリに移動し、  
+```
 cd Diffusion_Discriminator2023/my_ch07  もしくはmy_ch08  
 python main.py  
-
+```
 で実行できます。  
-
 
 ## ライセンス
 本ツールのライセンスはdeep-learning-from-scratchのものに準じます。(MIT License)  
